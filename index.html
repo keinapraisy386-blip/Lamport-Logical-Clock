@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lamport Logical Clock Simulator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">LC</span><div><h1>Lamport Logical Clock</h1><p>Distributed Computing Simulator</p></div></div>
+    <div class="top-actions"><span class="status-dot"></span><span>Simulation ready</span></div>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">CS3551 · DISTRIBUTED COMPUTING</p>
+        <h2>Understand the order of events<br><span>across distributed processes.</span></h2>
+        <p class="intro-copy">Create events, exchange messages, and watch logical clocks update according to Lamport's rules.</p>
+      </div>
+      <div class="intro-chip"><strong>3</strong><span>Default processes</span></div>
+    </section>
+
+    <section class="panel controls-panel">
+      <div class="section-heading"><div><p class="eyebrow">SIMULATION CONTROLS</p><h3>Configure your processes</h3></div><span class="step-label">01 / SETUP</span></div>
+      <div class="control-row">
+        <label for="processCount">Number of processes</label>
+        <select id="processCount"><option value="2">2 processes</option><option value="3" selected>3 processes</option><option value="4">4 processes</option></select>
+        <button class="btn btn-primary" id="applyProcesses">Apply</button>
+        <span class="control-spacer"></span>
+        <button class="btn btn-ghost" id="resetBtn">↺ Reset simulation</button>
+      </div>
+      <div class="rule-note"><strong>Clock rules:</strong> Before each local/send event, increment the process clock by 1. On receive, set the clock to <code>max(local, received) + 1</code>.</div>
+    </section>
+
+    <section class="workspace">
+      <div class="panel process-panel">
+        <div class="section-heading"><div><p class="eyebrow">LIVE PROCESS STATE</p><h3>Distributed processes</h3></div><span class="step-label">02 / PROCESSES</span></div>
+        <div id="processes" class="process-grid"></div>
+        <div class="legend"><span><i class="legend-local"></i> Local event</span><span><i class="legend-send"></i> Send message</span><span><i class="legend-receive"></i> Receive message</span></div>
+      </div>
+
+      <div class="panel action-panel">
+        <div class="section-heading"><div><p class="eyebrow">CREATE AN EVENT</p><h3>Event controls</h3></div><span class="step-label">03 / ACTION</span></div>
+        <div class="field"><label for="sourceProcess">Select process</label><select id="sourceProcess"></select></div>
+        <button class="action-card" id="localBtn"><span class="action-icon local-icon">●</span><span><strong>Local event</strong><small>Perform an event within a process</small></span><b>→</b></button>
+        <div class="message-fields">
+          <div class="field"><label for="targetProcess">Message destination</label><select id="targetProcess"></select></div>
+          <button class="action-card" id="sendBtn"><span class="action-icon send-icon">↗</span><span><strong>Send message</strong><small>Send a timestamped message</small></span><b>→</b></button>
+        </div>
+        <div class="field"><label for="messageSelect">Pending message</label><select id="messageSelect"><option value="">No pending messages</option></select></div>
+        <button class="action-card" id="receiveBtn"><span class="action-icon receive-icon">↙</span><span><strong>Receive message</strong><small>Update clock using received timestamp</small></span><b>→</b></button>
+        <p id="actionFeedback" class="feedback" aria-live="polite">Choose an action to begin the simulation.</p>
+      </div>
+    </section>
+
+    <section class="panel timeline-panel">
+      <div class="section-heading"><div><p class="eyebrow">EVENT HISTORY</p><h3>Execution timeline</h3></div><span class="step-label">04 / ANALYSIS</span></div>
+      <div class="timeline-wrap">
+        <table><thead><tr><th>#</th><th>Process</th><th>Event</th><th>Details</th><th>Logical timestamp</th></tr></thead><tbody id="eventHistory"><tr class="empty-row"><td colspan="5">No events yet. Add a local event or send a message to begin.</td></tr></tbody></table>
+      </div>
+    </section>
+
+    <section class="panel messages-panel">
+      <div class="section-heading"><div><p class="eyebrow">MESSAGE QUEUE</p><h3>Messages in transit</h3></div><span class="step-label">05 / CHANNELS</span></div>
+      <div id="messageList" class="message-list"><p class="empty-message">No messages are currently in transit.</p></div>
+    </section>
+
+    <footer><span>Lamport Logical Clock Simulator</span><span>Frontend simulation · HTML · CSS · JavaScript</span></footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
